@@ -32,9 +32,9 @@ void mm_gpu(float* A, float* B, float* C, unsigned int M, unsigned int N, unsign
     // TODO
 
     float *A_d, *B_d, *C_d;
-    cudaMalloc((void**) &A_d, M+K*sizeof(float));
-    cudaMalloc((void**) &B_d, M+K*sizeof(float));
-    cudaMalloc((void**) &C_d, M+K*sizeof(float));
+    cudaMalloc((void**) &A_d, M*K*sizeof(float));
+    cudaMalloc((void**) &B_d, M*K*sizeof(float));
+    cudaMalloc((void**) &C_d, M*K*sizeof(float));
 
 
     cudaDeviceSynchronize();
@@ -47,7 +47,7 @@ void mm_gpu(float* A, float* B, float* C, unsigned int M, unsigned int N, unsign
     // TODO
 
     cudaMemcpy(A_d, A, M*K*sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(B_d, B, M*K*sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(B_d, B, N*K*sizeof(float), cudaMemcpyHostToDevice);
 
 
 
@@ -60,9 +60,9 @@ void mm_gpu(float* A, float* B, float* C, unsigned int M, unsigned int N, unsign
 
     // TODO
 
-    dim3 numThreadsPerBlock(32,32);
+    dim3 numThreadsPerBlock(M,N);
     dim3 numBlocks((N+numThreadsPerBlock.x - 1)/numThreadsPerBlock.x, (M + numThreadsPerBlock.x - 1)/numThreadsPerBlock.x);
-
+    mm_kernel <<<numBlocks,numThreadsPerBlock>>> (A_d, B_d, C_d,M,N,K);
 
 
     cudaDeviceSynchronize();
