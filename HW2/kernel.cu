@@ -11,7 +11,7 @@ __global__ void mm_kernel(float* A, float* B, float* C, unsigned int M, unsigned
 	if(col >= N || row >= M) return;
 	
 	float sum = 0f;
-	for(unsigned int 1 = 0; i < K; i++){
+	for(unsigned int i = 0; i < K; i++){
 		sum += A[row*K + i] * B[N*i + col];
 	}
 	
