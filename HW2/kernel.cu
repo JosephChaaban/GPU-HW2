@@ -57,7 +57,7 @@ void mm_gpu(float* A, float* B, float* C, unsigned int M, unsigned int N, unsign
     startTime(&timer);
 
     // TODO
-    dim3 numThreadsPerBlock(64,64);
+    dim3 numThreadsPerBlock(32,32);
     dim3 numBlocks((N + numThreadsPerBlock.x -1 )/numThreadsPerBlock.x, (M + numThreadsPerBlock.x -1 )/numThreadsPerBlock.x);
     mm_kernel <<< numBlocks, numThreadsPerBlock>>> (A_d, B_d, C_d,M,N,K);
 
