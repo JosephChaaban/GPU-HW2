@@ -11,7 +11,7 @@ unsigned int col = blockIdx.x*blockDim.x + threadIdx.x;
 float temp_sum = 0.0f;
 
 if (row < M && col < N) {
-    for (unsigned int i = 0; i < K; ++i) {
+    for (unsigned int i = 0; i < K; i++) {
         float op1 = A[row*K + i];
         float op2 = B[i*N + col];
         temp_sum += op1*op2;
